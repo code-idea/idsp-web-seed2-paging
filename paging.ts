@@ -2,6 +2,7 @@
 // Created by baihuibo on 16/3/29.
 import {toJson, module} from "angular";
 import defaults = require("lodash/defaults");
+import "./paging.less";
 
 const modName = 'paging';
 const mod = module(modName, []);
