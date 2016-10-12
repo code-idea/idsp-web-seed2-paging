@@ -2,6 +2,7 @@
 // Created by baihuibo on 16/3/29.
 import {toJson, module} from "angular";
 import defaults = require("lodash/defaults");
+import template = require('./paging.html');
 import "./paging.less";
 
 const modName = 'paging';
@@ -32,7 +33,7 @@ export default modName;
  *   }
  *
  */
-mod.directive("paging", function () {
+mod.directive("paging", [function () {
     var DEFAULTS = {
         method: 'get',
         limit: 10,
@@ -47,7 +48,7 @@ mod.directive("paging", function () {
     };
 
     return {
-        template: require('./paging.html'),
+        template: template.default,
         scope: {
             option: "="//配置对象 {Paging}
         },
@@ -172,4 +173,4 @@ mod.directive("paging", function () {
             }
         }
     }
-});
+}]);
