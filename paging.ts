@@ -1,7 +1,7 @@
 /// <reference path="typings/paging.d.ts" />
 // Created by baihuibo on 16/3/29.
 import {toJson, module} from "angular";
-import defaults = require("lodash/defaults");
+import defaults from "lodash/defaults";
 import template = require('./paging.html');
 import "./paging.less";
 
