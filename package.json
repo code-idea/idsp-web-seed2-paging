@@ -1,6 +1,6 @@
 {
   "name": "idsp-web-seed2-paging",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "",
   "main": "paging.ts",
   "directories": {

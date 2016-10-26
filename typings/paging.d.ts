@@ -27,19 +27,8 @@ interface PagingOption<T> {
     resultList?: T[]
     format?: (list: T[])=>any
 
-    // 点击下一页时触发
-    on?: (event: 'nextPage', callback: (list: T[])=>any)=>any
-
-    // 点击上一页时触发
-    on?: (event: 'prevPage', callback: (list: T[])=>any)=>any
-
-    // 前往第一页时触发
-    on?: (event: 'firstPage', callback: (list: T[])=>any)=>any
-
-    // 前往最后一页是触发
-    on?: (event: 'lastPage', callback: (list: T[])=>any)=>any
     // 页面切换时触发
-    on?: (event: 'changePage', callback: (list: T[])=>any)=>any
+    onPageChange?: (list: T[])=>any
 
     /**
      * 跳转到那页

@@ -55,12 +55,6 @@ mod.directive("paging", [function () {
         link: function (scope: any, el, attr) {
             const option: PagingOption = scope.option = defaults(scope.option || {}, DEFAULTS);
 
-            option.on = function (event, callback) {
-                el.on(event, function (e, list) {
-                    callback(list);
-                });
-            };
-
             let pagingSize = option.pagingSize;
 
             scope.$watch('option.pagingSize', function (newVal, oldVal) {
@@ -81,25 +75,6 @@ mod.directive("paging", [function () {
             var loading;
             //读取对应页面的数据
             scope.goToPage = function (page, reload) {//to page data
-                let eventName;
-                if (typeof page === 'string') {
-                    eventName = page;
-                    switch (page) {
-                        case 'firstPage' :
-                            page = 0;
-                            break;
-                        case 'prevPage' :
-                            page = option.currentPage - 1;
-                            break;
-                        case 'nextPage' :
-                            page = option.currentPage + 1;
-                            break;
-                        case 'lastPage' :
-                            page = option.totalPage - 1;
-                            break;
-                    }
-                }
-
                 if (page < 0 || (option.totalPage && page >= option.totalPage) || (page == option.currentPage && !reload)) {
                     return;
                 }
@@ -114,7 +89,7 @@ mod.directive("paging", [function () {
                 };
                 loading = true;
                 option.resource[option.method](option.invokeParam, data,
-                    function ({current, total, totalPage, data = []}: PagingResult) {
+                    ({current, total, totalPage, data = []}: PagingResult) => {
                         option.currentPage = current;
                         option.total = total;
                         option.totalPage = totalPage;
@@ -124,10 +99,9 @@ mod.directive("paging", [function () {
                         }
                         initPageList(totalPage, current);
 
-                        if (eventName) {
-                            el.trigger(eventName, option.resultList);
+                        if (option.onPageChange) {
+                            option.onPageChange(option.resultList);
                         }
-                        el.trigger('changePage', option.resultList);
 
                         loading = false;
                     }, function () {
