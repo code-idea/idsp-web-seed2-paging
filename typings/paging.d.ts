@@ -19,13 +19,27 @@ declare var require;
  * @prop hideDesc 隐藏描述 默认false
  * @prop reloadAll 是否总是重新加载 默认false
  */
-interface PagingOption {
-    method?:string
-    resource?:any
-    limit?:number
-    limitList?:number[]
-    resultList?:any[]
-    format?:(list:any[])=>any
+interface PagingOption<T> {
+    method?: string
+    resource?: any
+    limit?: number
+    limitList?: number[]
+    resultList?: T[]
+    format?: (list: T[])=>any
+
+    // 点击下一页时触发
+    on(event: 'nextPage', callback: (list: T[])=>any);
+
+    // 点击上一页时触发
+    on(event: 'prevPage', callback: (list: T[])=>any);
+
+    // 前往第一页时触发
+    on(event: 'firstPage', callback: (list: T[])=>any);
+
+    // 前往最后一页是触发
+    on(event: 'lastPage', callback: (list: T[])=>any);
+    // 页面切换时触发
+    on(event: 'changePage', callback: (list: T[])=>any);
 
     /**
      * 跳转到那页
@@ -34,20 +48,20 @@ interface PagingOption {
      *             如果传 last 则跳转到尾页
      * @param reload 是否重新计算总页数
      */
-    goToPage?:(page?, reload?:boolean)=>any
+    goToPage?: (page?, reload?: boolean)=>any
     /**
      * 刷新当前页面
      * @param reNum 是否重计算
      */
-    reload?:(reNum?:boolean)=>any
-    pagingSize?:number
-    params?:any
-    invokeParam?:any
-    total?:number
-    currentPage?:number
-    totalPage?:number
-    hideDesc?:boolean
-    reloadAll?:number
+    reload?: (reNum?: boolean)=>any
+    pagingSize?: number
+    params?: any
+    invokeParam?: any
+    total?: number
+    currentPage?: number
+    totalPage?: number
+    hideDesc?: boolean
+    reloadAll?: number
 }
 
 /**
@@ -58,9 +72,9 @@ interface PagingOption {
  * @prop data 当前页数据
  */
 interface PagingResult {
-    total:number
-    totalPage:number
-    current:number
-    limit:number
-    data:any[]
+    total: number
+    totalPage: number
+    current: number
+    limit: number
+    data: any[]
 }
