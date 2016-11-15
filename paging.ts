@@ -1,7 +1,7 @@
 /// <reference path="typings/paging.d.ts" />
 // Created by baihuibo on 16/3/29.
 import {toJson, module} from "angular";
-import defaults from "lodash/defaults";
+import {defaults} from "lodash";
 import template = require('./paging.html');
 import "./paging.less";
 
@@ -48,7 +48,7 @@ mod.directive("paging", [function () {
     };
 
     return {
-        template: template.default,
+        template: template.default || template,
         scope: {
             option: "="//配置对象 {Paging}
         },
