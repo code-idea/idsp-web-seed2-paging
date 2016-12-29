@@ -1,4 +1,3 @@
-declare var require;
 
 /**
  * 分页参数数据
@@ -19,7 +18,7 @@ declare var require;
  * @prop hideDesc 隐藏描述 默认false
  * @prop reloadAll 是否总是重新加载 默认false
  */
-interface PagingOption<T> {
+export interface PagingOption<T> {
     method?: string
     resource?: any
     limit?: number
@@ -60,7 +59,7 @@ interface PagingOption<T> {
  * @prop limit 限制数据大小
  * @prop data 当前页数据
  */
-interface PagingResult {
+export interface PagingResult {
     total: number
     totalPage: number
     current: number

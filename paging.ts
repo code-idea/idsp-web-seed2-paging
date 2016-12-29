@@ -4,6 +4,7 @@ import {toJson, module} from "angular";
 import {defaults} from "lodash";
 import template = require('./paging.html');
 import "./paging.less";
+import {PagingOption, PagingResult} from "./typings/paging";
 
 const modName = 'paging';
 const mod = module(modName, []);
@@ -34,7 +35,7 @@ export default modName;
  *
  */
 mod.directive("paging", [function () {
-    var DEFAULTS = {
+    const DEFAULTS = {
         method: 'get',
         limit: 10,
         total: 0,
@@ -53,7 +54,7 @@ mod.directive("paging", [function () {
             option: "="//配置对象 {Paging}
         },
         link: function (scope: any, el, attr) {
-            const option: PagingOption = scope.option = defaults(scope.option || {}, DEFAULTS);
+            const option: PagingOption<any> = scope.option = defaults(scope.option || {}, DEFAULTS);
 
             let pagingSize = option.pagingSize;
 
@@ -64,7 +65,7 @@ mod.directive("paging", [function () {
                 }
             });
 
-            var limit = option.limit;
+            let limit = option.limit;
             scope.$watch('option.limit', function (newVal, oldVal) {
                 if (oldVal && newVal != oldVal) {
                     limit = newVal;
@@ -72,14 +73,14 @@ mod.directive("paging", [function () {
                 }
             });
 
-            var loading;
+            let loading;
             //读取对应页面的数据
             scope.goToPage = function (page, reload) {//to page data
                 if (page < 0 || (option.totalPage && page >= option.totalPage) || (page == option.currentPage && !reload)) {
                     return;
                 }
 
-                var data = {
+                const data = {
                     current: page,
                     limit: limit,
                     method: option.method,
@@ -136,7 +137,7 @@ mod.directive("paging", [function () {
 
             //读取显示范围
             scope.getDataRange = function (to) {
-                var {currentPage, limit, total} = option;
+                const {currentPage, limit, total} = option;
                 if (to) {
                     return currentPage * limit + limit > total ? total : currentPage * limit + limit;//结束
                 } else {
@@ -145,17 +146,17 @@ mod.directive("paging", [function () {
                 }
             };
 
-            var startFix, endFix, list;
+            let startFix, endFix, list;
 
             function initPageList(totalPage, currentPage) {//初始化分页器
                 list = scope.pageList = [];
 
                 startFix = endFix = Math.floor(pagingSize / 2);
-                var test = startFix * 2 + 1;
+                let test = startFix * 2 + 1;
                 if (test > pagingSize) startFix -= 1;
                 if (test < pagingSize) endFix += 1;
 
-                var _sf = 0,
+                let _sf = 0,
                     _ef = 0,
                     start = currentPage - startFix,
                     end = endFix + currentPage + 1;
