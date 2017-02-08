@@ -75,17 +75,19 @@ mod.directive("paging", [function () {
 
             let loading;
             //读取对应页面的数据
-            scope.goToPage = function (page, reload) {//to page data
-                if (page < 0 || (option.totalPage && page >= option.totalPage) || (page == option.currentPage && !reload)) {
-                    return;
+            scope.goToPage = function (page, reload: boolean) {//to page data
+                if (page < 0) {
+                    page = 0;
+                } else if (option.totalPage && page == option.totalPage) {
+                    page = option.totalPage - 1;
                 }
 
                 const data = {
                     current: page,
                     limit: limit,
                     method: option.method,
-                    reload: option.reloadAll || !!reload,
-                    total: option.total,
+                    reload: option.reloadAll || reload,
+                    total: reload ? void 0 : option.total,
                     params: toJson(option.params || {})
                 };
                 loading = true;
@@ -126,7 +128,11 @@ mod.directive("paging", [function () {
                         scope.goToPage(option.totalPage - 1, reload);
                         break;
                     default:
-                        scope.goToPage(option.currentPage, reload);
+                        if (typeof page === 'number') {
+                            scope.goToPage(page, reload);
+                        }else{
+                            scope.goToPage(option.currentPage, reload);
+                        }
                 }
             };
 

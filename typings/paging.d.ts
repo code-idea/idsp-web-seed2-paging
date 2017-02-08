@@ -49,7 +49,7 @@ export interface PagingOption<T> {
     currentPage?: number
     totalPage?: number
     hideDesc?: boolean
-    reloadAll?: number
+    reloadAll?: boolean
 }
 
 /**
